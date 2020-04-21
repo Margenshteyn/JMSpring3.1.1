@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of users</title>
+</head>
+<body>
+<div align="center">
+    <h1>List of all users</h1>
+    <form th:action="@{/admin/userAdd}" method="get" id="my_form"></form>
+    <table border="1" cellpadding="3">
+        <tr>
+            <td>Login</td>
+            <td>Password</td>
+            <td>Name</td>
+            <td>Amount</td>
+            <td>Roles</td>
+            <td>Update</td>
+            <td>Delete</td>
+        </tr>
+
+        <!--            <c:forEach items="${usersList}" var="user">-->
+        <th:block th:each="user: ${usersList}" th:object="${user}">
+            <tr>
+                <!-- <td><c:out value="${user.username}"/></td>-->
+                <td th:utext="${user.username}"></td>
+                <td th:utext="${user.password}"></td>
+                <td th:utext="${user.name}"></td>
+                <!--<td th:utext="${user.amount}"></td>-->
+                <td th:utext="*{amount}"></td>
+                <!--<td th:utext="${user.roles}"></td>-->
+                <td th:utext="*{roles}"></td>
+                <td>
+                    <div align="center">
+                        <form th:action="@{/admin/userUpdate}" method="get">
+                            <button type="submit" name="login" th:value="${user.username}" class="btn-link">Update
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div align="center">
+                        <form th:action="@{/admin/userDelete}" method="get">
+                            <button type="submit" name="login" th:value="${user.username}" class="btn-link">Delete
+                            </button>
+                        </form>
+                    </div>
+                </td>
+
+            </tr>
+        </th:block>
+        <tr>
+            <td><input type="text" name="username" form="my_form"></td>
+            <td><input type="text" name="password" form="my_form"></td>
+            <td><input type="text" name="name" form="my_form"></td>
+            <td><input type="number" step="0.01" min="0" lang="en" name="amount" form="my_form"></td>
+            <td>
+                <select name="roles" form="my_form" multiple>
+                    <option selected>USER</option>
+                    <option>ADMIN</option>
+                </select>
+            </td>
+            <td>
+                <button type="submit" form="my_form">Add new user</button>
+            </td>
+        </tr>
+    </table>
+
+    <h2 th:text="${message}">message</h2>
+    <h2 th:utext="${message}">message</h2>
+    <br>
+
+    <form th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+    </form>
+    <h2 th:utext="${message}">message</h2>
+</div>
+<h2 th:utext="${message}">message</h2>
+</body>
+</html>
